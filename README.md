@@ -1,22 +1,73 @@
-#RxJS Minimal Marble Testing Setup w/ WallabyJS
+# RxJS Marble Testing Setup for Ava
 
 Minimal setup to start utilizing [marble testing](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md).
+
+### Status
+
+WIP: Please help out!
 
 ### Getting Started
 
 ```bash
 # clone the repo
-git clone https://github.com/btroncone/rxjs-marble-testing.git
+git clone https://github.com/kristianmandrup/rxjs-ava-marble-testing.git
 
 # run install
 npm install
 ```
 
-Once complete, select the *wallaby.js* configuration file and run. For help running in your favorite editor,
-check out the [official documentation](https://wallabyjs.com/docs/index.html).
+Run `ava --init` and follow steps in [using Ava](https://github.com/avajs/ava#usage)
 
-By default, specs are meant to go in the `spec` folder with other relevant files under the `src` directory.
-This can be configured in the *wallaby.js* file.
+```js
+import { test } from 'ava'
+import h from './helpers/test-helper'
 
-### What about Karma?
-I will likely be adding a karma config soon or would gladly accept a pull request!
+test('The filter operator', t => {
+    // to cleanup TestScheduler after each test run
+    h.afterEach(t)
+
+    h.it(t, () => {
+        const source = Observable.from<number>([1, 2, 3, 4, 5])
+        // ...
+        h.expectObservable(example, ???)
+    });
+});
+
+
+## API
+
+- `cold`
+- `hot`
+- `expectObservable`
+- `expectSubscriptions`
+- `ajax` with `MockWebSocket` and `MockXMLHttpRequest`
+- `afterEach(t)` which sets up an Ava `afterEach` hook to reset the rx `TestScheduler` after each test run
+
+## Issues
+
+Currently uses test helpers in this form:
+
+```js
+function hot() {
+  if (!global.rxTestScheduler) {
+    throw 'tried to use hot() in async test';
+  }
+  return global.rxTestScheduler.createHotObservable.apply(global.rxTestScheduler, arguments);
+}
+```
+
+I'm not sure how to correctly use the `global` variable for testing and how to make the `expectXYZ` helpers work with Ava. Please help out! Thanks
+
+I only tweaked the `assertDeepEqual` for now...
+
+```js
+function createAssertDeepEqual(t) {
+  return (actual, expected) => {
+    (<any>t.deepEqual(actual, expected))
+  }
+}
+```
+
+## Copyright
+
+MIT

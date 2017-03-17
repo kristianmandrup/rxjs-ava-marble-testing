@@ -1,18 +1,20 @@
 {
-  "name": "rxjs-marble-testing",
-  "version": "1.0.0",
-  "description": "Minimal marble testing setup with wallabyjs",
+  "name": "rxjs-ava-marble-testing",
+  "version": "0.1.0",
+  "description": "Minimal marble testing setup with Ava",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "ava lib/*-spec.js"
+  },
   "keywords": [
     "rxjs",
+    "ava",
     "marble-testing"
   ],
-  "author": "Brian Troncone",
+  "author": "Kristian Mandrup",
   "license": "MIT",
   "devDependencies": {
-    "jasmine": "^2.4.1",
-    "lodash.isequal": "^4.2.0",
-    "rxjs": "^5.0.0-beta.2"
+    "ava": "^0.18.2",
+    "rxjs": "^5.2.0"
   }
 }

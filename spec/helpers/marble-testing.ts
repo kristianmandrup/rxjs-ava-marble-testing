@@ -14,7 +14,7 @@ function cold() {
   return global.rxTestScheduler.createColdObservable.apply(global.rxTestScheduler, arguments);
 }
 
-function expectObservable() {
+function expectObservable(...args) {
   if (!global.rxTestScheduler) {
     throw 'tried to use expectObservable() in async test';
   }
@@ -28,8 +28,10 @@ function expectSubscriptions() {
   return global.rxTestScheduler.expectSubscriptions.apply(global.rxTestScheduler, arguments);
 }
 
-function assertDeepEqual(actual, expected) {
-  (<any> expect(actual)).toDeepEqual(expected);
+function createAssertDeepEqual(t) {
+  return (actual, expected) => {
+    (<any>t.deepEqual(actual, expected))
+  }
 }
 
 export default {
@@ -37,5 +39,5 @@ export default {
   cold: cold,
   expectObservable: expectObservable,
   expectSubscriptions: expectSubscriptions,
-  assertDeepEqual: assertDeepEqual
+  createAssertDeepEqual: createAssertDeepEqual
 };
