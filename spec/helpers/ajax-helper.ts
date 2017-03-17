@@ -76,7 +76,7 @@ export class MockWebSocket {
   removeEventListener(name: string, handler: any): void {
     const lookup = this.handlers[name];
     if (lookup) {
-      for (let i = lookup.length - 1; i--; ) {
+      for (let i = lookup.length - 1; i--;) {
         if (lookup[i] === handler) {
           lookup.splice(i, 1);
         }
@@ -163,7 +163,7 @@ export class MockXMLHttpRequest {
   }
 
   removeEventListener(name: string, handler: any): void {
-    for (let i = this.eventHandlers.length - 1; i--; ) {
+    for (let i = this.eventHandlers.length - 1; i--;) {
       let eh = this.eventHandlers[i];
       if (eh.name === name && eh.handler === handler) {
         this.eventHandlers.splice(i, 1);
@@ -185,18 +185,18 @@ export class MockXMLHttpRequest {
     this.responseText = response.responseText;
     if (!('response' in response)) {
       switch (this.responseType) {
-      case 'json':
-        try {
-          this.response = JSON.parse(response.responseText);
-        } catch (err) {
-          throw new Error('unable to JSON.parse: \n' + response.responseText);
-        }
-        break;
-      case 'text':
-        this.response = response.responseText;
-        break;
-      default:
-        throw new Error('unhandled type "' + this.responseType + '"');
+        case 'json':
+          try {
+            this.response = JSON.parse(response.responseText);
+          } catch (err) {
+            throw new Error('unable to JSON.parse: \n' + response.responseText);
+          }
+          break;
+        case 'text':
+          this.response = response.responseText;
+          break;
+        default:
+          throw new Error('unhandled type "' + this.responseType + '"');
       }
     }
     // TODO: pass better event to onload.

@@ -1,7 +1,7 @@
 {
   "name": "rxjs-ava-marble-testing",
-  "version": "0.1.0",
-  "description": "Minimal marble testing setup with Ava",
+  "version": "1.0.0",
+  "description": "RxJS marble testing for Ava",
   "main": "index.js",
   "scripts": {
     "test": "ava lib/*-spec.js"
@@ -14,7 +14,7 @@
   "author": "Kristian Mandrup",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.18.2",
-    "rxjs": "^5.2.0"
+    "ava": "^0.18.0",
+    "rxjs": "^5.0.0"
   }
 }

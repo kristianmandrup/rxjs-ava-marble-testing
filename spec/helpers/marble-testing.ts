@@ -1,32 +1,5 @@
-declare var global, expect;
-
-function hot() {
-  if (!global.rxTestScheduler) {
-    throw 'tried to use hot() in async test';
-  }
-  return global.rxTestScheduler.createHotObservable.apply(global.rxTestScheduler, arguments);
-}
-
-function cold() {
-  if (!global.rxTestScheduler) {
-    throw 'tried to use cold() in async test';
-  }
-  return global.rxTestScheduler.createColdObservable.apply(global.rxTestScheduler, arguments);
-}
-
-function expectObservable(...args) {
-  if (!global.rxTestScheduler) {
-    throw 'tried to use expectObservable() in async test';
-  }
-  return global.rxTestScheduler.expectObservable.apply(global.rxTestScheduler, arguments);
-}
-
-function expectSubscriptions() {
-  if (!global.rxTestScheduler) {
-    throw 'tried to use expectSubscriptions() in async test';
-  }
-  return global.rxTestScheduler.expectSubscriptions.apply(global.rxTestScheduler, arguments);
-}
+import { TestScheduler } from 'rxjs'
+import { test } from 'ava'
 
 function createAssertDeepEqual(t) {
   return (actual, expected) => {
@@ -34,10 +7,45 @@ function createAssertDeepEqual(t) {
   }
 }
 
-export default {
-  hot: hot,
-  cold: cold,
-  expectObservable: expectObservable,
-  expectSubscriptions: expectSubscriptions,
-  createAssertDeepEqual: createAssertDeepEqual
-};
+export function marbles(t) {
+  return new Marbles(t)
+}
+
+export class Marbles {
+  protected t: any
+  protected _rxTestScheduler: TestScheduler
+
+  constructor(t: any) {
+    this.t = t
+  }
+
+  it(description, cb) {
+    const assertDeepEqual = createAssertDeepEqual(this.t)
+    this._rxTestScheduler = new TestScheduler(assertDeepEqual)
+    cb()
+
+    this.rxTestScheduler.flush()
+    this._rxTestScheduler = null;
+  }
+
+  get rxTestScheduler() {
+    return this._rxTestScheduler
+  }
+
+  hot(marbles, values?, error?) {
+    return this.rxTestScheduler.createHotObservable(marbles, values, error)
+  }
+
+
+  cold(marbles, values?, error?) {
+    return this.rxTestScheduler.createColdObservable(marbles, values, error)
+  }
+
+  expectObservable(actualObservable) {
+    return this.rxTestScheduler.expectObservable(actualObservable)
+  }
+
+  expectSubscriptions(actualSubscriptions) {
+    return this.rxTestScheduler.expectSubscriptions(actualSubscriptions)
+  }
+}
