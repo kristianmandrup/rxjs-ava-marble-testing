@@ -1,5 +1,7 @@
 # RxJS Marble Testing Setup for Ava
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/kristianmandrup/rxjs-ava-marble-testing.svg)](https://greenkeeper.io/)
+
 Helpers for using [marble testing](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md). with [Ava](https://github.com/avajs/ava) testing framework
 
 Note: This project was derived from [rxjs-marble-testing](https://github.com/btroncone/rxjs-marble-testing) for Jasmine/Wallaby.
