@@ -1,1 +1,1 @@
-require('lib/helpers/test-helper')
+module.exports = require('./lib/helpers/test-helper')
